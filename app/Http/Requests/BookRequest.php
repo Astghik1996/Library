@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class BookRequest extends FormRequest
 {
@@ -30,9 +32,18 @@ class BookRequest extends FormRequest
         ];
     }
 
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success' => 0,
+            'type' => 'error',
+            'message' => $validator->messages()->first()
+        ],422));
+    }
+
     public function messages()
     {   return[
-        'required' => 'Incorrect email or password',
+        'required' => 'Incorrect data   ',
     ];
     }
 }

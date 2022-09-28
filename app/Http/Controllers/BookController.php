@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\BookContract;
+use App\Contracts\BookLibraryContract;
 use App\Http\Requests\BookRequest;
 use Illuminate\Http\Request;
 
@@ -10,10 +11,12 @@ class BookController extends Controller
 {
 
     protected BookContract $bookRepo;
+    protected BookLibraryContract $bookLibraryRepo;
 
     public function __construct()
     {
         $this->bookRepo = app()->make(BookContract::class);
+        $this->bookLibraryRepo = app()->make(BookLibraryContract::class);
     }
 
     /**
@@ -52,7 +55,13 @@ class BookController extends Controller
                 'author'=>$request->input('author')
             ];
             $book = $this->bookRepo->create($data);
-            return $book;
+            $rel=$this->bookLibraryRepo->store([
+                'book_id'=>$book->id,
+                'library_id'=>$request->input('library_id')
+            ]);
+
+            return ['book'=>$book,
+                'relation'=>$rel];
         }catch (\Error $e){
             return $e;
         }

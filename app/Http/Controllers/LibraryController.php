@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\LibraryContract;
 use Illuminate\Http\Request;
 
 class LibraryController extends Controller
 {
+    protected LibraryContract $libraryRepo;
+    public function __construct()
+    {
+        $this->libraryRepo = app()->make(LibraryContract::class);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +19,9 @@ class LibraryController extends Controller
      */
     public function index()
     {
-        //
+        $libraries = $this->libraryRepo->getAll();
+        return   $libraries;
+
     }
 
     /**

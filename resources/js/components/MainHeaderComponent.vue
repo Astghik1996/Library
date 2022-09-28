@@ -43,7 +43,9 @@
                 :value="'mobile-tabs-5-' + i"
             >
                 <v-card flat>
-                    <v-card-text v-text="text"></v-card-text>
+<!--                    <v-card-text v-text="text"></v-card-text>-->
+                    <LibraryListComponent></LibraryListComponent>
+
                 </v-card>
             </v-tab-item>
         </v-tabs-items>
@@ -52,8 +54,10 @@
 </template>
 
 <script>
+import LibraryListComponent from "./LibraryListComponent";
 export default {
     name: "MainHeaderComponent",
+    components: {LibraryListComponent},
     data () {
         return {
             tabs: null,
