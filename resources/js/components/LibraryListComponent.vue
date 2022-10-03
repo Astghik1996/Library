@@ -1,9 +1,10 @@
 <template>
-    <div>
+    <div class="l-flex l-margin-sm">
         <v-col
+            class="l-width l-height "
             v-for="(item, i) in items"
             :key="i"
-            cols="12"
+            cols="4"
         >
             <v-card
                 color="#db9d9d"
@@ -17,28 +18,23 @@
                         ></v-card-title>
 
                         <div v-if="item.books">
-<!--                            <v-card-subtitle v-for="book in item.books" v-text="book.title"></v-card-subtitle>-->
-                            <p>{{item.books}}</p>
+                            <div v-for="(book,j) in item.books" class="l-flex flex-no-wrap">
+                                <v-card-subtitle :key="j" v-text="book.title"></v-card-subtitle>
+                            </div>
                         </div>
-                        <v-card-actions>
+                        <v-card-actions >
                             <v-btn
                                 class="ml-2 mt-5"
                                 outlined
                                 rounded
                                 small
+                                @click="viewAll(item.id)"
                             >
                                 VIEW ALL
                             </v-btn>
                         </v-card-actions>
                     </div>
 
-                    <v-avatar
-                        class="ma-3"
-                        size="125"
-                        tile
-                    >
-                        <v-img :src="item.src"></v-img>
-                    </v-avatar>
                 </div>
             </v-card>
         </v-col>
@@ -46,8 +42,6 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
     name: "LibraryListComponent",
     data: () => ({
@@ -59,10 +53,27 @@ export default {
             this.items = response.data
             console.log(this.items)
         })
-    }
+    },
+    methods:{
+        viewAll(id){
+            this.$emit('page', {data: id,component:'AllBooks'})
+        }
+}
 }
 </script>
 
 <style scoped>
-
+.l-flex{
+    display: flex;
+    flex-wrap: wrap;
+}
+.l-height{
+    height: 250px !important;
+}
+.v-sheet {
+    height: 100%;
+}
+.l-margin-sm{
+    margin: 20px;
+}
 </style>

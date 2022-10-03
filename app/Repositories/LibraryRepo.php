@@ -32,8 +32,7 @@ class LibraryRepo implements LibraryContract
     }
     public function show(int $id, array $relations = []): Model
     {
-        // TODO: Implement show() method.
-        return "";
+        return $this->model->with('books')->find($id);
     }
     public function update(array $params, array $data): bool
     {

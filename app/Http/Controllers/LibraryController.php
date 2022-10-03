@@ -53,7 +53,8 @@ class LibraryController extends Controller
      */
     public function show($id)
     {
-        //
+        $library= $this->libraryRepo->show($id);
+        return   $library;
     }
 
     /**

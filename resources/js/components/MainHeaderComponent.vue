@@ -44,7 +44,8 @@
             >
                 <v-card flat>
 <!--                    <v-card-text v-text="text"></v-card-text>-->
-                    <LibraryListComponent></LibraryListComponent>
+                    <component :is="component+'Component'" @page="changePage" :data="data"></component>
+<!--                    <LibraryListComponent></LibraryListComponent>-->
 
                 </v-card>
             </v-tab-item>
@@ -55,15 +56,24 @@
 
 <script>
 import LibraryListComponent from "./LibraryListComponent";
+import AllBooksComponent from  "./AllBooksComponent"
 export default {
     name: "MainHeaderComponent",
-    components: {LibraryListComponent},
+    components: {AllBooksComponent, LibraryListComponent},
     data () {
         return {
             tabs: null,
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+            component:'LibraryList',
+            data:null
+
         }
     },
+    methods:{
+        changePage(data){
+            this.component=data.component;
+            this.data=data.data
+        }
+    }
 }
 </script>
 

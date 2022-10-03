@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -33,3 +34,6 @@ Route::post('/user',[UserController::class,'store']);
 //auth
 Route::post('/login',[AuthController::class,'login']);
 Route::get('/logout',[AuthController::class,'logout']);
+
+//library
+Route::get('/library/{id}',[LibraryController::class,'show']);
