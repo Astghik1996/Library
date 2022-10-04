@@ -17,10 +17,10 @@ class LibrarySeeder extends Seeder
     {
         Library::insert(
             [
-                ['name'=>'Library1'],
-                ['name'=>'Library2'],
-                ['name'=>'Library3'],
-                ['name'=>'Library4'],
+                ['name'=>'Library1','image'=>'pexels-ricardo-esquivel-1907784'],
+                ['name'=>'Library2','image'=>'pexels-pixabay-159711'],
+                ['name'=>'Library3','image'=>'pexels-janko-ferlic-590493'],
+                ['name'=>'Library4','image'=>null],
 
             ]
         );
