@@ -2072,25 +2072,37 @@ __webpack_require__.r(__webpack_exports__);
       bookList: [],
       loading: false,
       selection: 1,
-      rating: 4.3
+      rating: 0
     };
   },
   props: ['data'],
   mounted: function mounted() {
     var _this = this;
 
-    axios.get("api/library/".concat(this.data)).then(function (response) {
-      console.log(response.data.books, 123);
+    axios.get("api/library/".concat(_this.data)).then(function (response) {
       _this.bookList = response.data.books;
-      console.log(_this.bookList, 852);
       Object.values(_this.bookList).forEach(function (value, key) {
+        var sum = 0;
         value.show = false;
+
+        if (value.likes.length !== 0) {
+          value.likes.forEach(function (item, key) {
+            sum += parseFloat(item.rate);
+          });
+          sum = sum / value.likes.length;
+        }
+
+        value.rate = sum;
+        console.log(_this.bookList);
       });
     });
   },
   methods: {
     show: function show(book) {
       book.show = !book.show;
+    },
+    rateChange: function rateChange(book, rate) {
+      book.rate = rate;
     }
   }
 });
@@ -2222,23 +2234,53 @@ var render = function render() {
         height: "200px",
         src: "bookimg/null.jpg"
       }
-    }), _vm._v(" "), _c("v-card-title", [_vm._v("\n                    " + _vm._s(book.title) + "\n                ")]), _vm._v(" "), _c("v-card-subtitle", [_vm._v("\n                    " + _vm._s(book.author) + "\n                ")]), _vm._v(" "), _c("v-rating", {
+    }), _vm._v(" "), _c("v-card-title", [_vm._v("\n                    " + _vm._s(book.title) + "\n                ")]), _vm._v(" "), _c("v-card-subtitle", [_vm._v("\n                    " + _vm._s(book.author) + "\n                ")]), _vm._v(" "), _c("div", {
+      staticClass: "l-flex"
+    }, [_c("v-card-actions", {
+      staticClass: "pa-4",
+      on: {
+        click: function click($event) {
+          return _vm.rateChange(book, book.rate);
+        }
+      }
+    }, [_c("v-rating", {
       attrs: {
-        color: "yellow darken-3",
         "background-color": "grey darken-1",
+        color: "yellow accent-4",
         "empty-icon": "$ratingFull",
         "half-increments": "",
         hover: "",
         size: "16"
       },
       model: {
-        value: _vm.rating,
+        value: book.rate,
         callback: function callback($$v) {
-          _vm.rating = $$v;
+          _vm.$set(book, "rate", $$v);
         },
-        expression: "rating"
+        expression: "book.rate"
       }
-    }), _vm._v(" "), _c("v-card-actions", [_c("v-btn", {
+    })], 1), _vm._v(" "), book.rate > 0 ? _c("input", {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: book.rate,
+        expression: "book.rate"
+      }],
+      staticClass: "text--lighten-2 text-caption mr-2",
+      attrs: {
+        type: "text"
+      },
+      domProps: {
+        value: book.rate
+      },
+      on: {
+        input: function input($event) {
+          if ($event.target.composing) return;
+
+          _vm.$set(book, "rate", $event.target.value);
+        }
+      }
+    }) : _vm._e()], 1), _vm._v(" "), _c("v-card-actions", [_c("v-btn", {
       attrs: {
         color: "orange lighten-2",
         text: ""

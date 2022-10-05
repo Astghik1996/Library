@@ -7,7 +7,6 @@
                     :key="i"
                     class="mx-auto mb-12 mt-12"
                     max-width="344"
-
                 >
                     <v-img
                         height="200px"
@@ -21,15 +20,21 @@
                     <v-card-subtitle>
                         {{ book.author }}
                     </v-card-subtitle>
-                    <v-rating
-                        v-model="rating"
-                        color="yellow darken-3"
-                        background-color="grey darken-1"
-                        empty-icon="$ratingFull"
-                        half-increments
-                        hover
-                        size="16"
-                    ></v-rating>
+                    <div class="l-flex">
+                        <v-card-actions class="pa-4"
+                                        @click="rateChange(book,book.rate)">
+                        <v-rating
+                            v-model="book.rate"
+                            background-color="grey darken-1"
+                            color="yellow accent-4"
+                            empty-icon="$ratingFull"
+                            half-increments
+                            hover
+                            size="16"
+                        ></v-rating>
+                        </v-card-actions>
+                        <input type="text" v-if="book.rate > 0" class="text--lighten-2 text-caption mr-2" v-model="book.rate">
+                    </div>
 
                     <v-card-actions>
                         <v-btn
@@ -73,27 +78,37 @@ export default {
             bookList:[],
             loading: false,
             selection: 1,
-            rating:4.3,
+            rating:0
         }
     },
     props:['data'],
     mounted() {
-        axios.get(`api/library/${this.data}`).then((response)=>{
-            console.log(response.data.books,123)
-            this.bookList=response.data.books
-            console.log(this.bookList,852)
-            Object.values(this.bookList).forEach(function (value, key) {
+
+        let _this =this
+        axios.get(`api/library/${_this.data}`).then((response)=>{
+            _this.bookList=response.data.books
+            Object.values(_this.bookList).forEach(function (value, key) {
+                let sum =0
                 value.show = false
+                if(value.likes.length !==0){
+                    value.likes.forEach(function (item, key) {
+                        sum += parseFloat(item.rate);
+                    });
+                    sum = sum/value.likes.length
+                }
+                value.rate = sum
+                console.log(_this.bookList)
             });
         })
-
-
     },
     methods:{
         show(book){
             book.show = !book.show
+        },
+        rateChange(book,rate){
+            book.rate = rate
         }
-    }
+    },
 }
 </script>
 

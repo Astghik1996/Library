@@ -5,10 +5,12 @@ namespace App\Providers;
 use App\Contracts\BookContract;
 use App\Contracts\BookLibraryContract;
 use App\Contracts\LibraryContract;
+use App\Contracts\LikeContract;
 use App\Contracts\UserContract;
 use App\Repositories\BookLibraryRepo;
 use App\Repositories\BookRepo;
 use App\Repositories\LibraryRepo;
+use App\Repositories\LikeRepo;
 use App\Repositories\UserRepo;
 use Illuminate\Support\ServiceProvider;
 
@@ -47,6 +49,10 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             BookLibraryContract::class,
             BookLibraryRepo::class
+        );
+        $this->app->bind(
+            LikeContract::class,
+            LikeRepo::class
         );
     }
 }

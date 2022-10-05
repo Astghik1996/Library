@@ -4,7 +4,7 @@ namespace App\Contracts;
 
 use Illuminate\Database\Eloquent\Model;
 
-interface LibraryContract
+interface LikeContract
 {
     /**
      * @param array $data
@@ -21,17 +21,7 @@ interface LibraryContract
 
     /**
      * @param int $id
-     * @param array $relations
-     * @return Model
-     */
-    public function show(int $id, array $relations=[]);
-
-    public function getAll();
-
-    /**
-     * @param int $id
      * @return bool
      */
     public function delete(int $id):bool;
-
 }

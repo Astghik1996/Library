@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\LibraryController;
+use App\Http\Controllers\LikeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +21,5 @@ Route::get('/', function () {
 });
 
 Route::get('/library',[LibraryController::class,'index']);
+
+Route::post('/like',[LikeController::class,'create']);

@@ -18,4 +18,9 @@ class Book extends Model
     {
         return $this->belongsToMany(Library::class,'book_library');
     }
+
+    public function likes()
+    {
+       return $this->hasMany(Like::class);
+    }
 }

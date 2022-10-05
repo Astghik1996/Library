@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->integer('book_id');
+            $table->integer('user_id');
             $table->integer('rate');
         });
     }
