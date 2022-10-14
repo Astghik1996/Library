@@ -13,26 +13,45 @@
                             fixed-tabs
                         >
                             <v-tabs-slider></v-tabs-slider>
+
                             <v-tab
                                 class="primary--text"
                                 href="#mobile-tabs-5-1"
                             >
-                                <v-icon>mdi-format-list-bulleted-square</v-icon>
+                                <router-link to="/">
+                                    <v-btn icon>
+                                        <v-icon>mdi-format-list-bulleted-square</v-icon>
+                                    </v-btn>
+                                </router-link>
                             </v-tab>
+
+
 
                             <v-tab
                                 class="primary--text"
                                 href="#mobile-tabs-5-2"
                             >
-                                <v-icon>mdi-magnify</v-icon>
+                                <router-link to="/search">
+                                <v-btn icon>
+                                    <v-icon>mdi-magnify</v-icon>
+                                </v-btn>
+                                </router-link>
+
                             </v-tab>
+
+
 
                             <v-tab
                                 class="primary--text"
                                 href="#mobile-tabs-5-3"
                             >
-                                <v-icon>mdi-login</v-icon>
+                                <router-link to="/login">
+                                    <v-btn icon>
+                                        <v-icon>mdi-login</v-icon>
+                                    </v-btn>
+                                </router-link>
                             </v-tab>
+
                         </v-tabs>
                     </template>
                 </v-toolbar>
@@ -44,7 +63,7 @@
                         :value="'mobile-tabs-5-' + i"
                     >
                         <v-card flat>
-                            <component :is="component+'Component'" :data="data" @page="changePage"></component>
+                            <router-view></router-view>
                         </v-card>
                     </v-tab-item>
                 </v-tabs-items>
@@ -54,25 +73,18 @@
 </template>
 
 <script>
-import LibraryListComponent from "./LibraryListComponent";
-import AllBooksComponent from "./AllBooksComponent"
 
 export default {
     name: "MainHeaderComponent",
-    components: {AllBooksComponent, LibraryListComponent},
     data () {
         return {
             tabs: null,
-            component:'LibraryList',
-            data:null
 
         }
     },
     methods:{
-        changePage(data){
-            this.component=data.component;
-            this.data=data.data
-        }
+    },
+    mounted() {
     }
 }
 </script>
@@ -80,6 +92,10 @@ export default {
 <style >
 .v-tabs-bar__content{
     justify-content: center !important;
+}
+.v-application {
+    color:#f4ab54 !important;
+    caret-color: #f4ab54 !important;
 }
 
 </style>

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\LibraryContract;
+use App\Http\Resources\LibraryResource;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class LibraryController extends Controller
 {
@@ -12,22 +14,26 @@ class LibraryController extends Controller
     {
         $this->libraryRepo = app()->make(LibraryContract::class);
     }
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response|LibraryResource
      */
-    public function index()
+    public function index(): Response|LibraryResource
     {
         $libraries = $this->libraryRepo->getAll();
-        return   $libraries;
+        return   new LibraryResource([
+            'libraries'=>$libraries,
+            'status'=>200
+        ]);
 
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -38,7 +44,7 @@ class LibraryController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -48,20 +54,24 @@ class LibraryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response|LibraryResource
      */
-    public function show($id)
+    public function show($id): Response|LibraryResource
     {
         $library= $this->libraryRepo->show($id,['books','books.likes']);
-        return   $library;
+        return   new LibraryResource([
+            'libraries'=>$library,
+            'status'=>200
+        ]);
+
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit($id)
     {
@@ -73,7 +83,7 @@ class LibraryController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, $id)
     {
@@ -84,7 +94,7 @@ class LibraryController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {

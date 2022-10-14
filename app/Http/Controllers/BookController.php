@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Contracts\BookContract;
 use App\Contracts\BookLibraryContract;
 use App\Http\Requests\BookRequest;
+use App\Http\Resources\BookResource;
+use App\Http\Resources\ErrorResource;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class BookController extends Controller
 {
@@ -22,18 +25,22 @@ class BookController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response|BookResource
      */
-    public function index()
+    public function index(): Response|BookResource
     {
         $books = $this->bookRepo->getAll();
-        return $books;
+        return new BookResource([
+            'book'=>$books,
+            'status'=>200
+        ]);
+
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -44,9 +51,9 @@ class BookController extends Controller
      * Store a newly created resource in storage.
      *
      * @param BookRequest $request
-     * @return \Illuminate\Http\Response
+     * @return ErrorResource|BookResource
      */
-    public function store(BookRequest $request)
+    public function store(BookRequest $request): ErrorResource|BookResource
     {
         try {
             $data=[
@@ -60,10 +67,17 @@ class BookController extends Controller
                 'library_id'=>$request->input('library_id')
             ]);
 
-            return ['book'=>$book,
-                'relation'=>$rel];
+            return new BookResource([
+                'book'=>$book,
+                'rel'=>$rel,
+                'message'=>'book created successfully ',
+                'status'=>201
+            ]);
         }catch (\Error $e){
-            return $e;
+            return New ErrorResource([
+                'message'=>$e->getMessage(),
+                'status'=>422
+            ]);
         }
     }
 
@@ -71,20 +85,23 @@ class BookController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response|BookResource
      */
-    public function show($id)
+    public function show($id): Response|BookResource
     {
        $book = $this->bookRepo->show($id);
-       return $book;
+       return new BookResource([
+           'book'=>$book,
+           'status'=>200
+       ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit($id)
     {
@@ -96,7 +113,7 @@ class BookController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, $id)
     {
@@ -114,7 +131,7 @@ class BookController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {

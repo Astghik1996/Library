@@ -10,7 +10,7 @@ interface BookContract
      * @param array $data
      * @return Model
      */
-    public function create(array $data):Model;
+    public function create(array $data):mixed;
 
     /**
      * @param array $params
@@ -24,7 +24,7 @@ interface BookContract
      * @param array $relations
      * @return Model
      */
-    public function show(int $id, array $relations=[]):Model;
+    public function show(int $id, array $relations=[]):mixed;
 
     public function getAll();
 
@@ -33,6 +33,7 @@ interface BookContract
      * @return bool
      */
     public function delete(int $id):bool;
+
 
 
 

@@ -14,9 +14,13 @@ class LikeController extends Controller
         $this->likeRepo = app()->make(LikeContract::class);
     }
 
-    public function store(Request $request)
+    public function store(Request $request,$id)
     {
-        dd($request);
+        $book = $this->likeRepo->create([
+            'rate'=>$request->input('rate'),
+            'book_id'=>$id
+        ]);
+        return $book;
     }
 
 

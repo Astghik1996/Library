@@ -57,7 +57,8 @@ class BookRepo implements BookContract
      */
     public function getAll()
     {
-        return $this->model->get();
+        return $this->model->with('likes')->get();
     }
+
 
 }

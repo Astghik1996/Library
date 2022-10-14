@@ -78,13 +78,13 @@ export default {
     mounted() {
 
         axios.get('/library').then((response) => {
-            this.items = response.data
-            console.log(this.items)
+            this.items = response.data.data.library
         })
     },
     methods: {
         viewAll(id) {
-            this.$emit('page', {data: id, component: 'AllBooks'})
+            console.log(id)
+           this.$router.push({path:`/library/${id}`})
         }
     }
 }

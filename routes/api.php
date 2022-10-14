@@ -28,12 +28,7 @@ Route::post('/book',[BookController::class,'store']);
 Route::put('/book/{id}',[BookController::class,'update']);
 Route::delete('/book/{id}',[BookController::class,'destroy']);
 
-//user
-Route::post('/user',[UserController::class,'store']);
 
-//auth
-Route::post('/login',[AuthController::class,'login']);
-Route::get('/logout',[AuthController::class,'logout']);
 
 //library
 Route::get('/library/{id}',[LibraryController::class,'show']);
